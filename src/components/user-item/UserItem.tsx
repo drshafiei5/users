@@ -28,11 +28,11 @@ const UserItem: React.FC<UserItemProps> = React.memo(
 
     const handleToggleFavorite = useCallback(async () => {
       try {
-        await updateUser({ ...user, isFavorite: !user.isFavorite }).unwrap()
+        await updateUser({ ...user, isFavorite: !isUserLiked }).unwrap()
       } catch (error) {
         console.error("Failed to update user:", error)
       }
-    }, [updateUser, user])
+    }, [isUserLiked, updateUser, user])
 
     const tooltipTitle = useMemo(
       () => (isUserLiked ? "Remove from Favorites" : "Add to Favorites"),
