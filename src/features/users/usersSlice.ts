@@ -28,6 +28,10 @@ export const usersSlice = createAppSlice({
         state.likedUsers.push(action.payload)
       }
     }),
+    setUsers: create.reducer((state, action: PayloadAction<User[]>) => {
+      // Set the entire likedUsers array with the provided array
+      state.likedUsers = action.payload
+    }),
   }),
   selectors: {
     selectLikedUsers: state => state.likedUsers,
@@ -37,7 +41,7 @@ export const usersSlice = createAppSlice({
 })
 
 // Action creators
-export const { toggleLike } = usersSlice.actions
+export const { toggleLike, setUsers } = usersSlice.actions
 
 // Selectors
 export const { selectLikedUsers, selectIsUserLiked } = usersSlice.selectors

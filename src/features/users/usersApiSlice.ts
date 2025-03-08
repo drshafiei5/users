@@ -1,13 +1,21 @@
-import { apiSlice } from "../../utils/api-service"
 import type { User } from "../../app/types"
-import { toggleLike } from "./usersSlice"
+import { apiSlice } from "../../utils/api-service"
+import { setUsers, toggleLike } from "./usersSlice"
 
 const apiSliceWithUsers = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getUsers: builder.query<User[], { name?: string }>({
-      query: ({ name }) => {
-        const queryParams = name ? `?name=${encodeURIComponent(name)}` : ""
-        return `/users${queryParams}`
+      query: ({ name }) =>
+        `/users${name ? `?name=${encodeURIComponent(name)}` : ""}`,
+      async onQueryStarted({ name }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: users } = await queryFulfilled
+          if (name?.length === 0) {
+            dispatch(setUsers(users.filter(u => u.isFavorite)))
+          }
+        } catch (error) {
+          console.error("Failed to fetch users:", error)
+        }
       },
     }),
     toggleUserFavorite: builder.mutation<User, Partial<User>>({

@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo } from "react"
-import FavoriteIcon from "@mui/icons-material/Favorite"
+import React, { useCallback, useMemo, useState } from "react"
 import {
   StyledCard,
   UserContainer,
@@ -8,6 +7,7 @@ import {
   UserName,
   Description,
   UserDescription,
+  AnimatedFavoriteIcon,
 } from "./styles"
 import { Box, Tooltip, Avatar } from "@mui/material"
 import type { User } from "../../app/types"
@@ -25,10 +25,13 @@ const UserItem: React.FC<UserItemProps> = React.memo(
     const isUserLiked = useAppSelector(state =>
       selectIsUserLiked(state, user.id),
     )
+    const [animate, setAnimate] = useState(false)
 
     const handleToggleFavorite = useCallback(async () => {
       try {
         await updateUser({ ...user, isFavorite: !isUserLiked }).unwrap()
+        setAnimate(true)
+        setTimeout(() => setAnimate(false), 500) // Reset animation state after 500ms
       } catch (error) {
         console.error("Failed to update user:", error)
       }
@@ -54,13 +57,11 @@ const UserItem: React.FC<UserItemProps> = React.memo(
             >
               <UserName>{user.name}</UserName>
               <Tooltip title={tooltipTitle}>
-                <FavoriteIcon
-                  sx={{
-                    cursor: "pointer",
-                    color: isUserLiked ? "red" : "text.secondary",
-                  }}
+                <AnimatedFavoriteIcon
+                  animate={animate}
                   onClick={handleToggleFavorite}
                   aria-label={tooltipTitle}
+                  isLiked={isUserLiked}
                 />
               </Tooltip>
             </Box>

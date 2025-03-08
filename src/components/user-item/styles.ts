@@ -1,5 +1,18 @@
-import { styled, Card, Box } from "@mui/material"
+import { styled, Card, Box, keyframes } from "@mui/material"
+import FavoriteIcon from "@mui/icons-material/Favorite"
 import { Fonts } from "../../app/types"
+
+const likeAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+`
 
 export const StyledCard = styled(Card)({
   padding: "24px",
@@ -51,4 +64,13 @@ export const UserDescription = styled("p")(({ theme }) => ({
   margin: 0,
   fontSize: "14px",
   color: theme.palette.text.secondary,
+}))
+
+export const AnimatedFavoriteIcon = styled(FavoriteIcon)<{
+  animate: boolean
+  isLiked: boolean
+}>(({ animate, isLiked }) => ({
+  cursor: "pointer",
+  color: isLiked ? "red" : "gray",
+  animation: animate ? `${likeAnimation} 0.5s ease` : "none",
 }))
