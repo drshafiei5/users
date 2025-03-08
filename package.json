@@ -20,9 +20,9 @@
     "@mui/icons-material": "^6.4.7",
     "@mui/material": "^6.4.7",
     "@reduxjs/toolkit": "^2.0.1",
-    "react": "^18.2.0",
+    "react": "^19.0.0",
     "react-bottom-scroll-listener": "^5.1.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "^19.0.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^7.3.0",
     "redux-persist": "^6.0.0"
